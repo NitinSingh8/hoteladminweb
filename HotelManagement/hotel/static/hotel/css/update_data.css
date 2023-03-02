@@ -1,0 +1,10 @@
+.update_content {
+  margin: 20px 5px 0px 5px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 10px;
+  font-size: 20px;
+}

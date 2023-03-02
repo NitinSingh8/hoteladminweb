@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Admin Hotel Booking {% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static 'hotel/css/bootstrap.css' %}" />
+    {% block addcssfile %} {% endblock %}
+    <style>
+      body {
+        background-color: #212529;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    {% comment %} navbar {% endcomment %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Admin</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'home' %}"
+                >Book the Hotel</a
+              >
+            </li>
+            {% comment %}
+            <li class="nav-item margin-nav-item-personal">
+              <a class="nav-link active" href="{% url 'view' 1 %}">View</a>
+            </li>
+            <li class="margin-nav-item-personal nav-item">
+              <a class="nav-link active" href="{% url 'about' %}">About</a>
+            </li>
+            {% endcomment %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <script src="{%static 'hotel/js/jquery.js' %}"></script>
+    <script src="{%static 'hotel/js/popper.js' %}"></script>
+    <script src="{%static 'hotel/js/bootstrap.js' %}"></script>
+    {% block body %}{% endblock %} {% block addjsfile %}{% endblock %}
+  </body>
+</html>

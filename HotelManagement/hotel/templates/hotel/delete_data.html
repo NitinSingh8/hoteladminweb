@@ -1,0 +1,191 @@
+{% extends 'hotel/base.html' %} {% load static %} {% block addcssfile %}
+<link rel="stylesheet" href="{% static 'hotel/css/delete_data.css' %}" />
+{% endblock %} {% block body %}
+<div class="container-fluid mt-4">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-3"></div>
+
+    <div class="col-lg-6 pt-4">
+      <ul
+        class="nav nav-pills nav-fill border border-1 col-danger p-2 rounded-3"
+      >
+        <li class="nav-item">
+          <a href="{% url 'home' %}" class="btn btn-outline-info">Insert</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'update'  %}" class="btn btn-outline-info">Update</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'view' 1 %}" class="btn btn-outline-info">View</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'delete' %}" class="btn btn-info">Delete</a>
+        </li>
+      </ul>
+
+      <div id="delete_section" class="row pt-4">
+        {% if messages %} {% for message in messages %}
+        <div
+          {%
+          if
+          message.tags
+          %}
+          class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4"
+          {%
+          endif
+          %}
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %} {% if data %}
+        <div class="row">
+          <h2>Refund Amount : {{refund_amount}}</h2>
+        </div>
+        {% endif %}
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="row pt-4">
+            <div class="col-md-10">
+              <label for="{{form.email.id_for_label}}">Email</label>
+              <input
+                type="{{form.email.widget_type}}"
+                class="form-control"
+                name="email"
+                required="True"
+                id="{{form.email.id_for_label}}"
+                placeholder="Enter the Email"
+              />
+            </div>
+            <div class="col-md-2">
+              <br />
+              <input type="submit" class="w-100 btn btn-danger" value="Get" />
+            </div>
+          </div>
+        </form>
+        {% if data %}
+
+        <h4 class="mt-3">Email : {{data.email}}</h4>
+        <form action="{% url 'delete_data' data.id %}" method="post">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="{{form.firstname.id_for_label}}">FirstName</label>
+              <input
+                type="{{form.firstname.widget_type}}"
+                class="form-control"
+                name="firstname"
+                required="True"
+                id="{{form.firstname.id_for_label}}"
+                value="{{data.firstname}}"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="{{form.lastname.id_for_label}}">LastName</label>
+              <input
+                type="{{form.lastname.widget_type}}"
+                class="form-control"
+                name="lastname"
+                required="True"
+                id="{{form.lastname.id_for_label}}"
+                value="{{data.lastname}}"
+              />
+            </div>
+          </div>
+
+          <div class="row pt-2">
+            <div class="form-group col-md-9">
+              <label for="{{form.email.id_for_label}}">Email</label>
+              <input
+                type="{{form.email.widget_type}}"
+                class="form-control"
+                name="email"
+                required="True"
+                id="{{form.email.id_for_label}}"
+                value="{{data.email}}"
+              />
+            </div>
+            <div class="form-group col-md-3">
+              <label for="{{form.roomno.id_for_label}}">Room No.</label>
+              <input
+                type="{{form.roomno.widget_type}}"
+                class="form-control"
+                name="roomno"
+                required="True"
+                id="{{form.roomno.id_for_label}}"
+                value="{{data.roomno}}"
+              />
+            </div>
+          </div>
+
+          <div class="row pt-2">
+            <div class="form-group col-md-6">
+              <label for="{{form.starttime.id_for_label}}">StartTime</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                name="starttime"
+                required="True"
+                id="{{form.starttime.id_for_label}}"
+                value="{{st}}"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="{{form.endtime.id_for_label}}">EndTime</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                name="endtime"
+                required="True"
+                id="{{form.endtime.id_for_label}}"
+                value="{{et}}"
+              />
+            </div>
+          </div>
+          <div class="row mx-auto">
+            <label for="{{form.roomtype.id_for_label}}">Room Type</label>
+            <input
+              type="text"
+              class="form-control"
+              name="roomtype"
+              required="True"
+              id="{{form.roomtype.id_for_label}}"
+              value="{{data.roomtype}}"
+            />
+          </div>
+          <span class="fs-3 mt-3"
+            >Are You Sure Want to Delete this Data? &nbsp;</span
+          >
+          <input
+            type="submit"
+            class="btn btn-danger paybtncss"
+            value="Delete"
+          />
+        </form>
+        {% else %}
+        <div class="row mt-3">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 delete_content">
+            Enter the Email of User whom you want to delete :)
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-3"></div>
+  </div>
+</div>
+
+{% endblock %} {% block addjsfile %}
+<script src="{% static 'hotel/js/indexjs.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,637 @@
+{% extends 'hotel/base.html' %} {% load static %} {% block addcssfile %}
+<link rel="stylesheet" href="{% static 'hotel/css/indexcss.css' %}" />
+{% endblock %} {% block body %}
+<div class="container-fluid mt-4">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-3"></div>
+
+    <div class="col-lg-6 pt-4">
+      <ul
+        class="nav nav-pills nav-fill border border-1 col-danger p-2 rounded-3"
+      >
+        <li class="nav-item">
+          <a href="{% url 'home' %}" class="btn btn-info">Insert</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'update'  %}" class="btn btn-outline-info">Update</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'view' 1 %}" class="btn btn-outline-info">View</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'delete' %}" class="btn btn-outline-info">Delete</a>
+        </li>
+      </ul>
+
+      <div id="insert_section" class="row pt-4">
+        {% if messages %} {% for message in messages %}
+        <div
+          {%
+          if
+          message.tags
+          %}
+          class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4"
+          {%
+          endif
+          %}
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %}
+        <div class="row">
+          <div class="col-md-2 third-nav">
+            <ul>
+              <li id="list_room_a">
+                <button
+                  class="room_type_button btn btn-no-outline text-info"
+                  onclick="room_type_a_fun()"
+                >
+                  Room Type A
+                </button>
+              </li>
+              <li id="list_room_b">
+                <button
+                  class="room_type_button btn btn-no-outline text-info"
+                  onclick="room_type_b_fun()"
+                >
+                  Room Type B
+                </button>
+              </li>
+              <li id="list_room_c">
+                <button
+                  class="room_type_button btn btn-no-outline text-info"
+                  onclick="room_type_c_fun()"
+                >
+                  Room Type C
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-10">
+            <div id="room_type_a_booking">
+              <div
+                class="row border rounded-3 mx-auto mb-4"
+                style="background-color: grey; color: white"
+              >
+                <h3 class="text-center">Room Type A (Cost : 100 per Hour)</h3>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.firstname.id_for_label}}"
+                      >FirstName</label
+                    >
+                    <input
+                      type="{{form.firstname.widget_type}}"
+                      class="form-control"
+                      name="firstname"
+                      required="True"
+                      id="{{form.firstname.id_for_label}}"
+                      placeholder="FirstName"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="{{form.lastname.id_for_label}}">LastName</label>
+                    <input
+                      type="{{form.lastname.widget_type}}"
+                      class="form-control"
+                      name="lastname"
+                      required="True"
+                      id="{{form.lastname.id_for_label}}"
+                      placeholder="LastName"
+                    />
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-9">
+                    <label for="{{form.email.id_for_label}}">Email</label>
+                    <input
+                      type="{{form.email.widget_type}}"
+                      class="form-control"
+                      name="email"
+                      required="True"
+                      id="{{form.email.id_for_label}}"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="{{form.roomno.id_for_label}}">Room No.</label>
+
+                    <select
+                      class="form-select"
+                      name="roomno"
+                      id="{{form.roomno.id_for_label}}"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.starttime.id_for_label}}"
+                      >StartTime</label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="starttime"
+                      required="True"
+                      id="{{form.starttime.id_for_label}}"
+                      placeholder="Start Time"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="{{form.endtime.id_for_label}}">EndTime</label>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="endtime"
+                      required="True"
+                      id="{{form.endtime.id_for_label}}"
+                      placeholder="End Time"
+                    />
+                  </div>
+                </div>
+                <div class="row" style="display: none">
+                  <label for="{{form.roomtype.id_for_label}}">Room Type</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="roomtype"
+                    required="True"
+                    id="{{form.roomtype.id_for_label}}"
+                    value="A"
+                  />
+                </div>
+                <br />
+                <span class="fs-3">Payment Option</span>
+                <small>(Fill Dummy Value it will accept)</small>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">Card Number</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="card-number"
+                      required="True"
+                      id=""
+                      placeholder="Card Number"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-3">
+                    <label for="">Month</label>
+
+                    <select class="form-select" name="month" id="">
+                      <option value="january">January</option>
+                      <option value="february">February</option>
+                      <option value="march">March</option>
+                      <option value="april">April</option>
+                      <option value="may">May</option>
+                      <option value="june">June</option>
+                      <option value="july">July</option>
+                      <option value="august">August</option>
+                      <option value="september">September</option>
+                      <option value="october">October</option>
+                      <option value="november">November</option>
+                      <option value="december">December</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="">Year</label>
+
+                    <select class="form-select" name="year" id="">
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2024</option>
+                      <option value="2026">2024</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">CVV</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="cvv-number"
+                      required="True"
+                      id=""
+                      placeholder="CVV"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <input
+                      type="submit"
+                      id="InsertFinalSubmitButton"
+                      class="btn btn-danger mt-3 paybtncss"
+                      value="Pay & Book"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+              </form>
+            </div>
+            <div id="room_type_b_booking">
+              <div
+                class="row border rounded-3 mx-auto mb-4"
+                style="background-color: grey; color: white"
+              >
+                <h3 class="text-center">Room Type B (Cost : 80 per Hour)</h3>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.firstname.id_for_label}}"
+                      >FirstName</label
+                    >
+                    <input
+                      type="{{form.firstname.widget_type}}"
+                      class="form-control"
+                      name="firstname"
+                      required="True"
+                      id="{{form.firstname.id_for_label}}"
+                      placeholder="FirstName"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="{{form.lastname.id_for_label}}">LastName</label>
+                    <input
+                      type="{{form.lastname.widget_type}}"
+                      class="form-control"
+                      name="lastname"
+                      required="True"
+                      id="{{form.lastname.id_for_label}}"
+                      placeholder="LastName"
+                    />
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-9">
+                    <label for="{{form.email.id_for_label}}">Email</label>
+                    <input
+                      type="{{form.email.widget_type}}"
+                      class="form-control"
+                      name="email"
+                      required="True"
+                      id="{{form.email.id_for_label}}"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="{{form.roomno.id_for_label}}">Room No.</label>
+
+                    <select
+                      class="form-select"
+                      name="roomno"
+                      id="{{form.roomno.id_for_label}}"
+                    >
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.starttime.id_for_label}}"
+                      >StartTime</label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="starttime"
+                      required="True"
+                      id="{{form.starttime.id_for_label}}"
+                      placeholder="Start Time"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="{{form.endtime.id_for_label}}">EndTime</label>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="endtime"
+                      required="True"
+                      id="{{form.endtime.id_for_label}}"
+                      placeholder="End Time"
+                    />
+                  </div>
+                </div>
+                <div class="row" style="display: none">
+                  <label for="{{form.roomtype.id_for_label}}">Room Type</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="roomtype"
+                    required="True"
+                    id="{{form.roomtype.id_for_label}}"
+                    value="B"
+                  />
+                </div>
+
+                <br />
+                <span class="fs-3">Payment Option</span>
+                <small>(Fill Dummy Value it will accept)</small>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">Card Number</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="card-number"
+                      required="True"
+                      id=""
+                      placeholder="Card Number"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-3">
+                    <label for="">Month</label>
+
+                    <select class="form-select" name="month" id="">
+                      <option value="january">January</option>
+                      <option value="february">February</option>
+                      <option value="march">March</option>
+                      <option value="april">April</option>
+                      <option value="may">May</option>
+                      <option value="june">June</option>
+                      <option value="july">July</option>
+                      <option value="august">August</option>
+                      <option value="september">September</option>
+                      <option value="october">October</option>
+                      <option value="november">November</option>
+                      <option value="december">December</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="">Year</label>
+
+                    <select class="form-select" name="year" id="">
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2024</option>
+                      <option value="2026">2024</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">CVV</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="cvv-number"
+                      required="True"
+                      id=""
+                      placeholder="CVV"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <input
+                      type="submit"
+                      id="InsertFinalSubmitButton"
+                      class="btn btn-danger mt-3 paybtncss"
+                      value="Pay & Book"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+              </form>
+            </div>
+
+            <div id="room_type_c_booking">
+              <div
+                class="row border rounded-3 mx-auto mb-4"
+                style="background-color: grey; color: white"
+              >
+                <h3 class="text-center">Room Type C (Cost : 50 per Hour)</h3>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.firstname.id_for_label}}"
+                      >FirstName</label
+                    >
+                    <input
+                      type="{{form.firstname.widget_type}}"
+                      class="form-control"
+                      name="firstname"
+                      required="True"
+                      id="{{form.firstname.id_for_label}}"
+                      placeholder="FirstName"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="{{form.lastname.id_for_label}}">LastName</label>
+                    <input
+                      type="{{form.lastname.widget_type}}"
+                      class="form-control"
+                      name="lastname"
+                      required="True"
+                      id="{{form.lastname.id_for_label}}"
+                      placeholder="LastName"
+                    />
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-9">
+                    <label for="{{form.email.id_for_label}}">Email</label>
+                    <input
+                      type="{{form.email.widget_type}}"
+                      class="form-control"
+                      name="email"
+                      required="True"
+                      id="{{form.email.id_for_label}}"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="{{form.roomno.id_for_label}}">Room No.</label>
+
+                    <select
+                      class="form-select"
+                      name="roomno"
+                      id="{{form.roomno.id_for_label}}"
+                    >
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-6">
+                    <label for="{{form.starttime.id_for_label}}"
+                      >StartTime</label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="starttime"
+                      required="True"
+                      id="{{form.starttime.id_for_label}}"
+                      placeholder="Start Time"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="{{form.endtime.id_for_label}}">EndTime</label>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      name="endtime"
+                      required="True"
+                      id="{{form.endtime.id_for_label}}"
+                      placeholder="End Time"
+                    />
+                  </div>
+                </div>
+                <div class="row" style="display: none">
+                  <label for="{{form.roomtype.id_for_label}}">Room Type</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="roomtype"
+                    required="True"
+                    id="{{form.roomtype.id_for_label}}"
+                    value="C"
+                  />
+                </div>
+
+                <br />
+                <span class="fs-3">Payment Option</span>
+                <small>(Fill Dummy Value it will accept)</small>
+
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">Card Number</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="card-number"
+                      required="True"
+                      id=""
+                      placeholder="Card Number"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-3">
+                    <label for="">Month</label>
+
+                    <select class="form-select" name="month" id="">
+                      <option value="january">January</option>
+                      <option value="february">February</option>
+                      <option value="march">March</option>
+                      <option value="april">April</option>
+                      <option value="may">May</option>
+                      <option value="june">June</option>
+                      <option value="july">July</option>
+                      <option value="august">August</option>
+                      <option value="september">September</option>
+                      <option value="october">October</option>
+                      <option value="november">November</option>
+                      <option value="december">December</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="">Year</label>
+
+                    <select class="form-select" name="year" id="">
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2024</option>
+                      <option value="2026">2024</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <label for="">CVV</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="cvv-number"
+                      required="True"
+                      id=""
+                      placeholder="CVV"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+                <div class="row pt-2">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-6">
+                    <input
+                      type="submit"
+                      id="InsertFinalSubmitButton"
+                      class="btn btn-danger mt-3 paybtncss"
+                      value="Pay & Book"
+                    />
+                  </div>
+                  <div class="form-group col-md-3"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3"></div>
+  </div>
+</div>
+
+{% endblock %} {% block addjsfile %}
+<script src="{% static 'hotel/js/indexjs.js' %}"></script>
+{% endblock %}

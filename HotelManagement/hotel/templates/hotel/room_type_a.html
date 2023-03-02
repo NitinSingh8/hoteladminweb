@@ -1,0 +1,5 @@
+This is anohter page {% comment %} {{form.as_p}} {% endcomment %}
+<form action="" method="post">
+  {% csrf_token %} {{form.as_p}}
+  <input type="submit" value="submit" />
+</form>
