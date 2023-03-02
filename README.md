@@ -1,9 +1,21 @@
 # hoteladminweb
 
 <h2>Just clone it and run it in your server(after doing pip install django)</h2>
-
-Requirement - <br>
-  pip install django
+<br>
+Requirements : pip install Django
+<br>
+<h4> How to Run </h4>
+After cloning - Go to folder where manage.py exist
+<br>
+hoteladminweb/HoteMangement here run python manage.py runserver<br>
+or <br>
+Perform these steps in command line : <br>
+1. git clone https://github.com/NitinSingh8/hoteladminweb<br>
+2. cd hoteladminweb<br>
+3. cd HotelManagement<br>
+4. python manage.py runserver<br>
+Enjoy the project<br>
+<br>
 
 
 <h3>Everything working responsive and fully functionally</h3>
