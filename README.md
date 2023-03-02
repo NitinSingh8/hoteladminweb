@@ -1,5 +1,5 @@
-# hoteladminweb
-
+# hoteladminweb (An Admin Web Applicatin to manage hotel room)
+See the images below (SCROLL DOWN)
 <h2>Just clone it and run it in your server(after doing pip install django)</h2>
 <br>
 Requirements : pip install Django
